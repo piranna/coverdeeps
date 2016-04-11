@@ -1,0 +1,35 @@
+{
+  "name": "coverdeeps",
+  "version": "0.0.0",
+  "description": "Check tests coverture of a module and its dependencies",
+  "bin": "server.js",
+  "main": "index.js",
+  "preferGlobal": true,
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "concat-stream": "^1.5.1",
+    "npm-remote-ls": "piranna/npm-remote-ls"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.9",
+    "mocha-lcov-reporter": "^1.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piranna/coverdeeps.git"
+  },
+  "keywords": [
+    "coverture",
+    "dependencies",
+    "coveralls"
+  ],
+  "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piranna/coverdeeps/issues"
+  },
+  "homepage": "https://github.com/piranna/coverdeeps#readme"
+}
