@@ -6,6 +6,7 @@
   "main": "index.js",
   "preferGlobal": true,
   "dependencies": {
+    "archy": "^1.0.0",
     "async": "^2.0.0-rc.3",
     "concat-stream": "^1.5.1",
     "npm-remote-ls": "piranna/npm-remote-ls"

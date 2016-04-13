@@ -2,9 +2,9 @@ const basename = require('path').basename
 const get      = require('https').get
 const parse    = require('url').parse
 
-const async  = require('async')
-const concat = require('concat-stream')
-const ls     = require('npm-remote-ls').ls
+const async    = require('async')
+const concat   = require('concat-stream')
+const RemoteLS = require('npm-remote-ls').RemoteLS
 
 const COVERALL_IO = 'https://coveralls.io/github'
 
@@ -29,7 +29,7 @@ function getPercentageProject(repo, callback)
       body = JSON.parse(body)
       if(!body) return callback(null, 0)
 
-      callback(null, body.covered_percent/100)
+      callback(null, body.covered_percent/100)  // Per-unit to easier calcs
     }))
   })
 }
@@ -69,7 +69,8 @@ function calcPercentage(module, callback)
   function(error, result)
   {
     if(error) return callback(error)
-console.log(module.name, result.module, result.dependencies)
+
+    module.covered          = result.module
     module.covered_combined = result.module * result.dependencies
 
     callback(null, module)
@@ -79,7 +80,7 @@ console.log(module.name, result.module, result.dependencies)
 
 function coverdeeps(moduleName, callback)
 {
-  ls(moduleName, function(tree) {
+  RemoteLS({development: false}).ls(moduleName, 'latest', function(tree) {
     if(!tree) return callback(new Error(moduleName+' not found on NPM registry'))
 
     calcPercentage(tree, callback)
