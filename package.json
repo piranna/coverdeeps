@@ -1,6 +1,6 @@
 {
   "name": "coverdeeps",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Check tests coverture of a module and its dependencies",
   "bin": "server.js",
   "main": "index.js",
@@ -8,6 +8,7 @@
   "dependencies": {
     "archy": "^1.0.0",
     "async": "^2.0.0-rc.3",
+    "chalk": "^1.1.3",
     "concat-stream": "^1.5.1",
     "npm-remote-ls": "piranna/npm-remote-ls"
   },

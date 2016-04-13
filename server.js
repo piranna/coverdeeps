@@ -1,13 +1,21 @@
 #!/usr/bin/env node
 
 const archy = require('archy')
+const chalk = require('chalk')
 
 const coverdeeps = require('.')
 
 
 function coloredPercentage(value)
 {
-  return (value*100).toFixed(2)+'%'
+  var result = (value*100).toFixed(2)+'%'
+
+  if(value >= 1)   return chalk.green.bold(result)
+  if(value >= 0.9) return chalk.green(result)
+  if(value >= 0.8) return chalk.yellow(result)
+  if(value >  0)   return chalk.red(result)
+
+  return chalk.red.bold(result)
 }
 
 function mapCreateTree(key)
