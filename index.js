@@ -1,15 +1,39 @@
-const basename = require('path').basename
-const get      = require('https').get
-const parse    = require('url').parse
+'use strict'
+
+// Dependencies
+const path     = require('path')
+const https    = require('https')
+const url      = require('url')
+const basename = path.basename
+const get      = https.get
+const parse    = url.parse
 
 const async    = require('async')
 const concat   = require('concat-stream')
-const RemoteLS = require('npm-remote-ls').RemoteLS
+const npm      = require('npm-remote-ls')
+const RemoteLS = npm.RemoteLS
 
+/**
+ * @constant
+ * @type {String}
+ * @default
+ */
 const COVERALL_IO = 'https://coveralls.io/github'
 
-
-
+/**
+ * Asynchronously returns the test coverage of a dependency
+ * @example
+ *   getPercentageProject('git+https://github.com/piranna/coverdeeps.git', function(err, percentage) {})
+ * @param    {String}   repo     The Name of the dependency
+ * @param    {Function} callback The callback
+ * @requires path:basename
+ * @requires https:get
+ * @requires url:parse
+ * @returns  {Function}          Returns the callback with an error if the
+ *                              http code is higher or equal 400, or it returns
+ *                              the percentage for the dependency
+ *
+ */
 function getPercentageProject(repo, callback)
 {
   repo = parse(repo).pathname.split('/')
@@ -34,6 +58,21 @@ function getPercentageProject(repo, callback)
   })
 }
 
+/**
+ * Asynchronously returns the coverage of all dependencies
+ * @example
+ *   getPercentageDependencies(['dep1', 'dep2'], function(err, coverage) {})
+ * @param    {Array}    dependencies This array holds the dependencies
+ *                                   for the module
+ * @param    {Function} callback     This callback will be invoked with the result
+ *                                   of the coverage
+ * @requires async:map
+ * @returns  {Function}              Returnes the callback in error first style
+ *                                   On Error: It'll return a error from async
+ *                                   On Success: It'll return the coverage for
+ *                                   all dependencies divided by the length of
+ *                                   all dependencies
+ */
 function getPercentageDependencies(dependencies, callback)
 {
   if(!dependencies) return callback(null, 1)
@@ -60,6 +99,22 @@ function getPercentageDependencies(dependencies, callback)
   })
 }
 
+/**
+ * Asynchronously calculates the percentage for the
+ * module and the module dependencies
+ * @example
+ *   var pkg = require('./package.json')
+ *   calcPercentage(pkg, function(err, module))
+ * @param    {Object}   module   The module manifesst
+ * @param    {Function} callback The callback will be invoked
+ *                               with a object containing two new properties
+ *                               a) module.covered which has the coverage for
+ *                               the module itself and b) the coverage for
+ *                               the dependencies of the module
+ * @requires async:parallel
+ * @returns  {Function}          Returns the callback with the a
+ *                               error or a object containing the coverage
+ */
 function calcPercentage(module, callback)
 {
   async.parallel({
