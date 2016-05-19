@@ -14,8 +14,20 @@ const RemoteLS = npm.RemoteLS
 
 const COVERALL_IO = 'https://coveralls.io/github'
 
-
-
+/**
+ * Asynchronously returns the test coverage of a dependency
+ * @example
+ *   getPercentageProject('git+https://github.com/piranna/coverdeeps.git', function(err, percentage) {})
+ * @param    {String}   repo     The Name of the dependency
+ * @param    {Function} callback The callback
+ * @requires path:basename
+ * @requires https:get
+ * @requires url:parse
+ * @returns  {Function}          Returns the callback with an error if the
+ *                              http code is higher or equal 400, or it returns
+ *                              the percentage for the dependency
+ *
+ */
 function getPercentageProject(repo, callback)
 {
   repo = parse(repo).pathname.split('/')
