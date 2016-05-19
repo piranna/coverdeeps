@@ -58,6 +58,21 @@ function getPercentageProject(repo, callback)
   })
 }
 
+/**
+ * Asynchronously returns the coverage of all dependencies
+ * @example
+ *   getPercentageDependencies(['dep1', 'dep2'], function(err, coverage) {})
+ * @param    {Array}    dependencies This array holds the dependencies
+ *                                   for the module
+ * @param    {Function} callback     This callback will be invoked with the result
+ *                                   of the coverage
+ * @requires async:map
+ * @returns  {Function}              Returnes the callback in error first style
+ *                                   On Error: It'll return a error from async
+ *                                   On Success: It'll return the coverage for
+ *                                   all dependencies divided by the length of
+ *                                   all dependencies
+ */
 function getPercentageDependencies(dependencies, callback)
 {
   if(!dependencies) return callback(null, 1)
