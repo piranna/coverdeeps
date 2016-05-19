@@ -1,10 +1,16 @@
-const basename = require('path').basename
-const get      = require('https').get
-const parse    = require('url').parse
+'use strict'
+
+const path     = require('path')
+const https    = require('https')
+const url      = require('url')
+const basename = path.basename
+const get      = https.get
+const parse    = url.parse
 
 const async    = require('async')
 const concat   = require('concat-stream')
-const RemoteLS = require('npm-remote-ls').RemoteLS
+const npm      = require('npm-remote-ls')
+const RemoteLS = npm.RemoteLS
 
 const COVERALL_IO = 'https://coveralls.io/github'
 
