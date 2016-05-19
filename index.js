@@ -99,6 +99,22 @@ function getPercentageDependencies(dependencies, callback)
   })
 }
 
+/**
+ * Asynchronously calculates the percentage for the
+ * module and the module dependencies
+ * @example
+ *   var pkg = require('./package.json')
+ *   calcPercentage(pkg, function(err, module))
+ * @param    {Object}   module   The module manifesst
+ * @param    {Function} callback The callback will be invoked
+ *                               with a object containing two new properties
+ *                               a) module.covered which has the coverage for
+ *                               the module itself and b) the coverage for
+ *                               the dependencies of the module
+ * @requires async:parallel
+ * @returns  {Function}          Returns the callback with the a
+ *                               error or a object containing the coverage
+ */
 function calcPercentage(module, callback)
 {
   async.parallel({
