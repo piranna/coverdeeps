@@ -1,5 +1,6 @@
 'use strict'
 
+// Dependencies
 const path     = require('path')
 const https    = require('https')
 const url      = require('url')
@@ -12,6 +13,11 @@ const concat   = require('concat-stream')
 const npm      = require('npm-remote-ls')
 const RemoteLS = npm.RemoteLS
 
+/**
+ * @constant
+ * @type {String}
+ * @default
+ */
 const COVERALL_IO = 'https://coveralls.io/github'
 
 /**
