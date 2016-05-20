@@ -24,15 +24,14 @@ const COVERALL_IO = 'https://coveralls.io/github'
  * Asynchronously returns the test coverage of a dependency
  * @example
  *   getPercentageProject('git+https://github.com/piranna/coverdeeps.git', function(err, percentage) {})
- * @param    {String}   repo     The Name of the dependency
- * @param    {Function} callback The callback
  * @requires path:basename
  * @requires https:get
  * @requires url:parse
+ * @param    {String}   repo     The Name of the dependency
+ * @param    {Function} callback The callback
  * @returns  {Function}          Returns the callback with an error if the
- *                              http code is higher or equal 400, or it returns
- *                              the percentage for the dependency
- *
+ *                               http code is higher or equal 400, or it returns
+ *                               the percentage for the dependency
  */
 function getPercentageProject(repo, callback)
 {
@@ -62,11 +61,11 @@ function getPercentageProject(repo, callback)
  * Asynchronously returns the coverage of all dependencies
  * @example
  *   getPercentageDependencies(['dep1', 'dep2'], function(err, coverage) {})
+ * @requires async:map
  * @param    {Array}    dependencies This array holds the dependencies
  *                                   for the module
  * @param    {Function} callback     This callback will be invoked with the result
  *                                   of the coverage
- * @requires async:map
  * @returns  {Function}              Returnes the callback in error first style
  *                                   On Error: It'll return a error from async
  *                                   On Success: It'll return the coverage for
@@ -105,13 +104,13 @@ function getPercentageDependencies(dependencies, callback)
  * @example
  *   var pkg = require('./package.json')
  *   calcPercentage(pkg, function(err, module))
+ * @requires async:parallel
  * @param    {Object}   module   The module manifesst
  * @param    {Function} callback The callback will be invoked
  *                               with a object containing two new properties
  *                               a) module.covered which has the coverage for
  *                               the module itself and b) the coverage for
  *                               the dependencies of the module
- * @requires async:parallel
  * @returns  {Function}          Returns the callback with the a
  *                               error or a object containing the coverage
  */
@@ -132,7 +131,18 @@ function calcPercentage(module, callback)
   })
 }
 
-
+/**
+ * Asynchronously calculates the percentage for the module
+ * using the npm-remote-ls package for getting the package manifest
+ * @example
+ *   coverdeeps('moduleName', function(err, result) {  })
+ * @requires npm-remote-ls:ls
+ * @param  {String}   moduleName Name of the module
+ * @param  {Function} callback   Callback is invoked with a error or a result
+ * @return {Function}            Returns the callback with a error from the
+ *                               npm-remote-ls package or returning
+ *                               the percentage of the module
+ */
 function coverdeeps(moduleName, callback)
 {
   RemoteLS({development: false}).ls(moduleName, 'latest', function(tree) {
