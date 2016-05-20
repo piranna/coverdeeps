@@ -29,11 +29,27 @@ function coloredPercentage(value)
   return chalk.red.bold(result)
 }
 
+/**
+ * Creates a tree for every dependency
+ * @example
+ *   Object.keys(dependencies).map(mapCreateTree, dependencies)
+ * @param  {String} key The name of the dependency
+ * @return {Object}     Returns a object containing the coverage
+ *                      for the dependency
+ */
 function mapCreateTree(key)
 {
   return coverdeeps2archy(this[key], key)
 }
 
+/**
+ * Creates a coverage tree for all dependencies
+ * @param   {Object} dependency The dependency itself
+ * @param   {String} [key]      If the dependency has no name it retunrs just the
+ *                              key of the dependency
+ * @returns {Object}            Returns a archy compatible object containing
+ *                              a label and nodes property
+ */
 function coverdeeps2archy(dependency, key)
 {
   const name = dependency.name
@@ -54,9 +70,17 @@ function coverdeeps2archy(dependency, key)
   return result
 }
 
-
+/**
+ * @constant
+ * @type {String}
+ * @default
+ */
 const moduleName = process.argv[2] || require('.').name
 
+/**
+ * Invokes coverdeeps and calls it with either the a
+ * process argument or the name of the module
+ */
 coverdeeps(moduleName, function(error, result)
 {
   if(error) throw error
