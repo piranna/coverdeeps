@@ -60,7 +60,22 @@ function getPercentageProject(repo, callback)
   const user = repo[repo.length-2]
   repo = basename(repo[repo.length-1], '.git')
 
-  getValueCoveralls(user, repo, callback)
+  const fns =
+  {
+    coveralls: getValueCoveralls
+  }
+
+  async.applyEach(fns, user, repo, function(err, result)
+  {
+    if(err) return callback(err)
+
+    const keys = Object.keys(result)
+
+    callback(null, keys.reduce(function(prev, key)
+    {
+      return prev * result[key]
+    }, 1))
+  })
 }
 
 /**
