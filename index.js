@@ -52,7 +52,7 @@ function getPercentageProject(repo, callback)
       body = JSON.parse(body)
       if(!body) return callback(null, 0)
 
-      callback(null, body.covered_percent/100)  // Per-unit to easier calcs
+      return callback(null, body.covered_percent/100)  // Per-unit to easier calcs
     }))
   })
 }
@@ -83,7 +83,7 @@ function getPercentageDependencies(dependencies, callback)
   {
     if(typeof dependency === 'string') return callback(null, 1)
 
-    calcPercentage(dependency, callback)
+    return calcPercentage(dependency, callback)
   },
   function(error, results)
   {
@@ -94,7 +94,7 @@ function getPercentageDependencies(dependencies, callback)
       return prev + (results[key].covered_combined || 0)
     }, 0)
 
-    callback(null, covered / keys.length)
+    return callback(null, covered / keys.length)
   })
 }
 
@@ -127,7 +127,7 @@ function calcPercentage(module, callback)
     module.covered          = result.module
     module.covered_combined = result.module * result.dependencies
 
-    callback(null, module)
+    return callback(null, module)
   })
 }
 
@@ -148,7 +148,7 @@ function coverdeeps(moduleName, callback)
   RemoteLS({development: false}).ls(moduleName, 'latest', function(tree) {
     if(!tree) return callback(new Error(moduleName+' not found on NPM registry'))
 
-    calcPercentage(tree, callback)
+    return calcPercentage(tree, callback)
   });
 }
 
