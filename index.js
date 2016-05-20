@@ -1,8 +1,8 @@
 'use strict'
 
 // Dependencies
-const path     = require('path')
 const https    = require('https')
+const path     = require('path')
 const url      = require('url')
 const basename = path.basename
 const get      = https.get
@@ -18,7 +18,27 @@ const RemoteLS = npm.RemoteLS
  * @type {String}
  * @default
  */
-const COVERALL_IO = 'https://coveralls.io/github'
+const COVERALLS_IO = 'https://coveralls.io/github'
+
+
+function getValueCoveralls(user, repo, callback)
+{
+  get(COVERALLS_IO+'/'+user+'/'+repo+'.json',
+  function(res)
+  {
+    if(res.statusCode >= 400) return callback(null, 0)
+
+    res.on('error', callback)
+
+    res.pipe(concat(function(body)
+    {
+      body = JSON.parse(body)
+      if(!body) return callback(null, 0)
+
+      callback(null, body.covered_percent/100)  // Per-unit to easier calcs
+    }))
+  })
+}
 
 /**
  * Asynchronously returns the test coverage of a dependency
@@ -40,21 +60,7 @@ function getPercentageProject(repo, callback)
   const user = repo[repo.length-2]
   repo = basename(repo[repo.length-1], '.git')
 
-  get(COVERALL_IO+'/'+user+'/'+repo+'.json',
-  function(res)
-  {
-    if(res.statusCode >= 400) return callback(null, 0)
-
-    res.on('error', callback)
-
-    res.pipe(concat(function(body)
-    {
-      body = JSON.parse(body)
-      if(!body) return callback(null, 0)
-
-      callback(null, body.covered_percent/100)  // Per-unit to easier calcs
-    }))
-  })
+  getValueCoveralls(user, repo, callback)
 }
 
 /**
