@@ -5,7 +5,18 @@ const chalk = require('chalk')
 
 const coverdeeps = require('.')
 
-
+/**
+ * Colors the percentage
+ * If its bigger or equal 100% you get a green and bold color
+ * If its bigger or equal 90% you get only a green color
+ * If its bigger or equal to 80% you get a yellow color
+ * Everything else is red
+ * @example
+ *   var colordString = coloredPercentage(0.8)
+ * @requires chalk
+ * @param    {Number} value The percentage represented as unit
+ * @return   {String}       Returns a colored String
+ */
 function coloredPercentage(value)
 {
   var result = (value*100).toFixed(2)+'%'
