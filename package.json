@@ -14,10 +14,11 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.9",
+    "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
