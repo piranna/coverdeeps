@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Check tests coverture of a module and its dependencies",
   "bin": "server.js",
-  "main": "index.js",
+  "main": "lib",
   "preferGlobal": true,
   "dependencies": {
     "archy": "^1.0.0",
@@ -14,10 +14,12 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.9",
+    "jscoverage": "piranna/jscoverage",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0"
   },
   "scripts": {
+    "coveralls": "scripts/coveralls",
     "test": "mocha"
   },
   "repository": {
