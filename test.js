@@ -7,7 +7,7 @@ const name = require('./package.json').name
 
 it('0% coverage', function(done)
 {
-  this.timeout(5000)
+  this.timeout(10000)
 
   coverdeeps(name, function(err, result)
   {
