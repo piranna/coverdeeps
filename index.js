@@ -19,9 +19,25 @@ const RemoteLS = npm.RemoteLS
  * @default
  */
  const COVERALLS_IO = 'https://coveralls.io/github/'
+
+ /**
+  * @constant
+  * @type {String}
+  * @default
+  */
  const BITHOUND_IO  = 'https://www.bithound.io/api/overview/github/'
 
-
+/**
+ * Grabs the coverage from Coveralls.io
+ * @example
+ *   getValueCoveralls('username', 'repo', function(err, coverage))
+ * @requires https:get
+ * @param   {String}   user     The username for the coveralls link
+ * @param   {String}   repo     The repository name for the coveralls link
+ * @param   {Function} callback The callback will be invoked with either a error
+ *                              or the percentage of the repo
+ * @returns {Function}          Returns the callback
+ */
 function getValueCoveralls(user, repo, callback)
 {
   get(COVERALLS_IO+user+'/'+repo+'.json',
@@ -41,6 +57,18 @@ function getValueCoveralls(user, repo, callback)
   })
 }
 
+/**
+ * Grabs the coverage from bithound.io
+ * Grabs the coverage from Coveralls.io
+ * @example
+ *   getValueCoveralls('username', 'repo', function(err, coverage))
+ * @requires https:get
+ * @param   {String}   user     The username for the coveralls link
+ * @param   {String}   repo     The repository name for the coveralls link
+ * @param   {Function} callback The callback will be invoked with either a error
+ *                              or the percentage of the repo
+ * @returns {Function}          Returns the callback
+ */
 function getValueBithound(user, repo, callback)
 {
   get(BITHOUND_IO+user+'/'+repo,
