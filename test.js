@@ -1,11 +1,11 @@
-const assert = require('assert')
+const assert = require('chai').assert
 
 const coverdeeps = require('.')
 
 const name = require('./package.json').name
 
 
-it('0% coverage', function(done)
+it('module coverage > 95%', function(done)
 {
   this.timeout(10000)
 
@@ -13,7 +13,7 @@ it('0% coverage', function(done)
   {
     assert.ifError(err)
 
-    assert.strictEqual(result.covered, 0)
+    assert.isAtLeast(result.covered, 0.95)
 
     done()
   })
