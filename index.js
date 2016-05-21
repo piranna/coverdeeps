@@ -18,12 +18,13 @@ const RemoteLS = npm.RemoteLS
  * @type {String}
  * @default
  */
-const COVERALLS_IO = 'https://coveralls.io/github'
+ const COVERALLS_IO = 'https://coveralls.io/github/'
+ const BITHOUND_IO  = 'https://www.bithound.io/api/overview/github/'
 
 
 function getValueCoveralls(user, repo, callback)
 {
-  get(COVERALLS_IO+'/'+user+'/'+repo+'.json',
+  get(COVERALLS_IO+user+'/'+repo+'.json',
   function(res)
   {
     if(res.statusCode >= 400) return callback(null, 0)
@@ -36,6 +37,25 @@ function getValueCoveralls(user, repo, callback)
       if(!body) return callback(null, 0)
 
       callback(null, body.covered_percent/100)  // Per-unit to easier calcs
+    }))
+  })
+}
+
+function getValueBithound(user, repo, callback)
+{
+  get(BITHOUND_IO+user+'/'+repo,
+  function(res)
+  {
+    if(res.statusCode >= 400) return callback(null, 0)
+
+    res.on('error', callback)
+
+    res.pipe(concat(function(body)
+    {
+      body = JSON.parse(body)
+      if(!body) return callback(null, 0)
+
+      callback(null, body.total/100)  // Per-unit to easier calcs
     }))
   })
 }
@@ -62,6 +82,7 @@ function getPercentageProject(repo, callback)
 
   const fns =
   {
+    bithound: getValueBithound,
     coveralls: getValueCoveralls
   }
 
