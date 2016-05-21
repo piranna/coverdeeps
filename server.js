@@ -55,16 +55,18 @@ function coverdeeps2archy(dependency, key)
   const name = dependency.name
   if(!name) return key
 
-  const label = name+': '
-  const covered = coloredPercentage(dependency.covered)
+  const label = name+': '+coloredPercentage(dependency.covered)
 
   const dependencies = dependency.dependencies
-  if(!dependencies) return label+covered
+  if(!dependencies) return label
+
+  const nodes = Object.keys(dependencies).sort().map(mapCreateTree, dependencies)
+  if(!nodes.length) return label
 
   const result =
   {
-    label: label+coloredPercentage(dependency.covered_combined)+' ('+covered+')',
-    nodes: Object.keys(dependencies).sort().map(mapCreateTree, dependencies)
+    label: label+' ('+coloredPercentage(dependency.covered_combined)+')',
+    nodes: nodes
   }
 
   return result
