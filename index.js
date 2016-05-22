@@ -25,7 +25,7 @@ const RemoteLS = npm.RemoteLS
   * @type {String}
   * @default
   */
- const BITHOUND_IO  = 'https://www.bithound.io/api/overview/github/'
+ const BITHOUND_IO = 'https://www.bithound.io/api/overview/github/'
 
 /**
  * Grabs the coverage from Coveralls.io
@@ -40,8 +40,7 @@ const RemoteLS = npm.RemoteLS
  */
 function getValueCoveralls(user, repo, callback)
 {
-  get(COVERALLS_IO+user+'/'+repo+'.json',
-  function(res)
+  get(COVERALLS_IO+user+'/'+repo+'.json', function(res)
   {
     if(res.statusCode >= 400) return callback(null, 0)
 
@@ -71,8 +70,7 @@ function getValueCoveralls(user, repo, callback)
  */
 function getValueBithound(user, repo, callback)
 {
-  get(BITHOUND_IO+user+'/'+repo,
-  function(res)
+  get(BITHOUND_IO+user+'/'+repo, function(res)
   {
     if(res.statusCode >= 400) return callback(null, 0)
 
@@ -134,8 +132,8 @@ function getPercentageProject(repo, callback)
  * @requires async:map
  * @param    {Array}    dependencies This array holds the dependencies
  *                                   for the module
- * @param    {Function} callback     This callback will be invoked with the result
- *                                   of the coverage
+ * @param    {Function} callback     This callback will be invoked with the
+ *                                   result of the coverage
  * @returns  {Function}              Returnes the callback in error first style
  *                                   On Error: It'll return a error from async
  *                                   On Success: It'll return the coverage for
@@ -215,8 +213,10 @@ function calcPercentage(module, callback)
  */
 function coverdeeps(moduleName, callback)
 {
-  RemoteLS({development: false}).ls(moduleName, 'latest', function(tree) {
-    if(!tree) return callback(new Error(moduleName+' not found on NPM registry'))
+  RemoteLS({development: false}).ls(moduleName, 'latest', function(tree)
+  {
+    if(!tree)
+      return callback(new Error(moduleName+' not found on NPM registry'))
 
     calcPercentage(tree, callback)
   });

@@ -1,9 +1,12 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
+'use strict'
 
 const archy = require('archy')
 const chalk = require('chalk')
 
 const coverdeeps = require('.')
+
 
 /**
  * Colors the percentage
@@ -19,7 +22,7 @@ const coverdeeps = require('.')
  */
 function coloredPercentage(value)
 {
-  var result = (value*100).toFixed(2)+'%'
+  const result = (value*100).toFixed(2)+'%'
 
   if(value >= 1)   return chalk.green.bold(result)
   if(value >= 0.9) return chalk.green(result)
@@ -31,8 +34,12 @@ function coloredPercentage(value)
 
 /**
  * Creates a tree for every dependency
+ *
  * @example
  *   Object.keys(dependencies).map(mapCreateTree, dependencies)
+ *
+ * @this dependencies
+ *
  * @param  {String} key The name of the dependency
  * @return {Object}     Returns a object containing the coverage
  *                      for the dependency
@@ -60,24 +67,27 @@ function coverdeeps2archy(dependency, key)
   const dependencies = dependency.dependencies
   if(!dependencies) return label
 
-  const nodes = Object.keys(dependencies).sort().map(mapCreateTree, dependencies)
+  const nodes = Object.keys(dependencies)
+    .sort()
+    .map(mapCreateTree, dependencies)
   if(!nodes.length) return label
 
   const result =
   {
     label: label+' ('+coloredPercentage(dependency.covered_combined)+')',
-    nodes: nodes
+    nodes
   }
 
   return result
 }
+
 
 /**
  * @constant
  * @type {String}
  * @default
  */
-const moduleName = process.argv[2] || require('.').name
+const moduleName = process.argv[2] || require('./package.json').name  // eslint-disable-line global-require
 
 /**
  * Invokes coverdeeps and calls it with either the a
